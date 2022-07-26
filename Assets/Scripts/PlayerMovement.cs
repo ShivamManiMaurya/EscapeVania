@@ -32,8 +32,6 @@ public class PlayerMovement : MonoBehaviour
     void OnMove(InputValue value)
     {
         moveInputs = value.Get<Vector2>();
-
-        Debug.Log(moveInputs); 
     }
     
     void OnJump(InputValue value)
@@ -53,6 +51,16 @@ public class PlayerMovement : MonoBehaviour
         if (myCapsuleCollider.IsTouchingLayers(LayerMask.GetMask("Ground")))
         {
             myRigidbody.velocity += new Vector2(0f, jumpSpeed);
+        }
+    }
+
+    void ClimbLadder(InputValue value)
+    {
+        value.isPressed.Equals("W");
+
+        if (myCapsuleCollider.IsTouchingLayers(LayerMask.GetMask("Ladder")))
+        {
+            myRigidbody.position += new Vector2(0f, 1f);
         }
     }
 
