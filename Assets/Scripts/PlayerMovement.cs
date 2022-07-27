@@ -8,6 +8,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float runSpeed = 5f;
     [SerializeField] float jumpSpeed = 5f;
     [SerializeField] float climbSpeed = 3f;
+    [SerializeField] bool onLadder;
+    float myGavityScaleAtStart;
 
     Vector2 moveInputs;
     Rigidbody2D myRigidbody;
@@ -19,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
         myRigidbody = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         myCapsuleCollider = GetComponent<CapsuleCollider2D>();
-        
+        myGavityScaleAtStart = myRigidbody.gravityScale;
     }
 
     void Update()
@@ -33,9 +35,18 @@ public class PlayerMovement : MonoBehaviour
     void OnMove(InputValue value)
     {
         moveInputs = value.Get<Vector2>();
-        
     }
-    
+
+    void Run()
+    {
+        Vector2 playerVelocity = new Vector2(moveInputs.x * runSpeed, myRigidbody.velocity.y);
+        myRigidbody.velocity = playerVelocity;
+
+        bool playerIsRunningTransition = Mathf.Abs(myRigidbody.velocity.x) > Mathf.Epsilon;
+
+        myAnimator.SetBool("isRunning", playerIsRunningTransition);
+    }
+
     void OnJump(InputValue value)
     {
         //***************************
@@ -50,41 +61,32 @@ public class PlayerMovement : MonoBehaviour
         //*******************************
 
 
-        if (myCapsuleCollider.IsTouchingLayers(LayerMask.GetMask("Ground")))
+        if (myCapsuleCollider.IsTouchingLayers(LayerMask.GetMask("Ground")) && !onLadder)
         {
             myRigidbody.velocity += new Vector2(0f, jumpSpeed);
         }
     }
 
     void ClimbLadder()
-    {   
-        // other method
-        //if (!myCapsuleCollider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
-        //{ return; }
-
-
-        if (myCapsuleCollider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
+    { 
+        if (!myCapsuleCollider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
         {
-            Vector2 playerClimbingVelocity = new Vector2(myRigidbody.velocity.x, moveInputs.y * climbSpeed);
-            myRigidbody.velocity = playerClimbingVelocity;
-            Debug.Log("Aalo vel = " + myRigidbody.velocity + " || playerClimbingVel " + playerClimbingVelocity);
+            myRigidbody.gravityScale = myGavityScaleAtStart;
+            return;
         }
 
+        Vector2 playerClimbingVelocity = new Vector2(myRigidbody.velocity.x, moveInputs.y * climbSpeed);
+        myRigidbody.velocity = playerClimbingVelocity;
 
+        bool playerHasClimbingVelocity = Mathf.Abs(myRigidbody.velocity.y) > Mathf.Epsilon;
+        myAnimator.SetBool("isClimbing", playerHasClimbingVelocity);
 
+        myRigidbody.gravityScale = 0;
 
     }
 
 
-    void Run()
-    {
-        Vector2 playerVelocity = new Vector2(moveInputs.x * runSpeed, myRigidbody.velocity.y); 
-        myRigidbody.velocity = playerVelocity;
-
-        bool playerIsRunningTransition = Mathf.Abs(myRigidbody.velocity.x) > Mathf.Epsilon;
-
-        myAnimator.SetBool("isRunning", playerIsRunningTransition);
-    }
+    
 
 
     void FlipSprite()
