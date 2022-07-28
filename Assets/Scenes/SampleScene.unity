@@ -1399,7 +1399,7 @@ GameObject:
   - component: {fileID: 875585171}
   - component: {fileID: 875585174}
   - component: {fileID: 875585175}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Gublu (Enemy)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
