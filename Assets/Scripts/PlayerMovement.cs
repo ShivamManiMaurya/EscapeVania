@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float climbSpeed = 3f;
     [SerializeField] bool onLadder;
     float myGavityScaleAtStart;
+    bool isAlive = true;
 
     Vector2 moveInputs;
     Rigidbody2D myRigidbody;
@@ -28,19 +29,23 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (!isAlive) { return; }
         Run();
         FlipSprite();
         ClimbLadder();
+        Die();
         
     }
 
     void OnMove(InputValue value)
     {
+        if (!isAlive) { return; }
         moveInputs = value.Get<Vector2>();
     }
 
     void Run()
     {
+        if (!isAlive) { return; }
         Vector2 playerVelocity = new Vector2(moveInputs.x * runSpeed, myRigidbody.velocity.y);
         myRigidbody.velocity = playerVelocity;
 
@@ -62,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
         //}
         //*******************************
 
-
+        if (!isAlive) { return; }
         if (myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Ground")) && !onLadder)
         {
             myRigidbody.velocity += new Vector2(0f, jumpSpeed);
@@ -102,7 +107,13 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-
+    void Die()
+    {
+        if (myBodyCollider.IsTouchingLayers(LayerMask.GetMask("Enemies")))
+        {
+            isAlive = false;
+        }
+    }
 
 
 
