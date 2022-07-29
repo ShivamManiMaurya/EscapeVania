@@ -17,6 +17,8 @@ public class PlayerMovement : MonoBehaviour
     Animator myAnimator;
     CapsuleCollider2D myBodyCollider;
     BoxCollider2D myFeetCollider;
+    [SerializeField] Camera followCamera;
+    
 
     void Start()
     {
@@ -25,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
         myBodyCollider = GetComponent<CapsuleCollider2D>();
         myFeetCollider = GetComponent<BoxCollider2D>();
         myGavityScaleAtStart = myRigidbody.gravityScale;
+        
     }
 
     void Update()
@@ -111,7 +114,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (myBodyCollider.IsTouchingLayers(LayerMask.GetMask("Enemies")))
         {
+            myRigidbody.velocity = new Vector2(0f, jumpSpeed);
+            myBodyCollider.isTrigger = true;
+            myAnimator.SetTrigger("Dying");
             isAlive = false;
+
         }
     }
 
