@@ -112,7 +112,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Die()
     {
-        if (myBodyCollider.IsTouchingLayers(LayerMask.GetMask("Enemies")))
+        if (myBodyCollider.IsTouchingLayers(LayerMask.GetMask("Enemies", "Hazard")))
         {
             myRigidbody.velocity = new Vector2(0f, jumpSpeed);
             myBodyCollider.isTrigger = true;
