@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
 
     float myGavityScaleAtStart;
     bool isAlive = true;
+    
 
     Vector2 moveInputs;
     Rigidbody2D myRigidbody;
@@ -30,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
         myBodyCollider = GetComponent<CapsuleCollider2D>();
         myFeetCollider = GetComponent<BoxCollider2D>();
         myGavityScaleAtStart = myRigidbody.gravityScale;
+
         
     }
 
@@ -47,7 +49,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!isAlive) { return; }
         Instantiate(arrow, bow.position, transform.rotation);
+
+        myAnimator.SetTrigger("isShooting");
     }
+
 
     void OnMove(InputValue value)
     {
@@ -84,6 +89,7 @@ public class PlayerMovement : MonoBehaviour
         {
             myRigidbody.velocity += new Vector2(0f, jumpSpeed);
         }
+
     }
 
     void ClimbLadder()

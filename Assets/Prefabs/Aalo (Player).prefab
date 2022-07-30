@@ -225,7 +225,8 @@ MonoBehaviour:
   jumpSpeed: 12
   climbSpeed: 3
   onLadder: 0
-  followCamera: {fileID: 0}
+  arrow: {fileID: 8903102455678613035, guid: 20ad9c95db826cd4ab684d69ef33c235, type: 3}
+  bow: {fileID: 1320009706}
 --- !u!61 &543049018
 BoxCollider2D:
   m_ObjectHideFlags: 0
