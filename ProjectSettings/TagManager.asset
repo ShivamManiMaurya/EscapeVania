@@ -20,7 +20,7 @@ TagManager:
   - Enemies
   - Hazard
   - Arrows
-  - 
+  - Intractable
   - 
   - 
   - 
@@ -56,6 +56,9 @@ TagManager:
     locked: 0
   - name: Hazard
     uniqueID: 1628397869
+    locked: 0
+  - name: Intractable
+    uniqueID: 3899132637
     locked: 0
   - name: Enemies
     uniqueID: 763754327
