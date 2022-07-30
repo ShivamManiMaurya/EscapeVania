@@ -9,6 +9,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float jumpSpeed = 5f;
     [SerializeField] float climbSpeed = 3f;
     [SerializeField] bool onLadder;
+    [SerializeField] GameObject arrow;
+    [SerializeField] Transform bow;
+
     float myGavityScaleAtStart;
     bool isAlive = true;
 
@@ -17,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     Animator myAnimator;
     CapsuleCollider2D myBodyCollider;
     BoxCollider2D myFeetCollider;
-    [SerializeField] Camera followCamera;
+    
     
 
     void Start()
@@ -38,6 +41,12 @@ public class PlayerMovement : MonoBehaviour
         ClimbLadder();
         Die();
         
+    }
+
+    void OnFire(InputValue value)
+    {
+        if (!isAlive) { return; }
+        Instantiate(arrow, bow.position, transform.rotation);
     }
 
     void OnMove(InputValue value)
@@ -96,8 +105,6 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    
-
 
     void FlipSprite()
     {
@@ -122,6 +129,8 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    
 
+    
 
 }
