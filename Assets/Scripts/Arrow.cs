@@ -17,7 +17,6 @@ public class Arrow : MonoBehaviour
     {
         myRigidbody = GetComponent<Rigidbody2D>();
         player = FindObjectOfType<PlayerMovement>();
-        
 
         xSpeed = player.transform.localScale.x * arrowSpeed;
     }
@@ -45,6 +44,8 @@ public class Arrow : MonoBehaviour
         }
         Destroy(gameObject);
     }
+
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         Invoke("DestroyArrow", 10f * Time.deltaTime);
