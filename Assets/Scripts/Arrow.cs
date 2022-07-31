@@ -5,10 +5,12 @@ using UnityEngine;
 public class Arrow : MonoBehaviour
 {
     [SerializeField] float arrowSpeed = 10f;
+    float xSpeed;
+    int pointsForKillingEnemy = 100;
 
     Rigidbody2D myRigidbody;
     PlayerMovement player;
-    float xSpeed;
+    
     
 
     void Start()
@@ -38,6 +40,7 @@ public class Arrow : MonoBehaviour
     {
         if (collision.CompareTag("Enemy"))
         {
+            FindObjectOfType<GameSession>().AddToScore(pointsForKillingEnemy);
             Destroy(collision.gameObject);
         }
         Destroy(gameObject);
